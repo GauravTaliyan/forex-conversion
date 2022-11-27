@@ -5,8 +5,8 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 class CurrencyTest extends AnyFunSpec {
   describe("A currency") {
-    it("return all pairs" ) {
-        Currency.allCurrencyPairs.size shouldBe 72
+    it("return all pairs") {
+      Currency.allCurrencyPairs.size shouldBe 72
     }
 
     it("should be able to represent itself as a string") {
