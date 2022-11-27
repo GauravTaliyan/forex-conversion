@@ -13,8 +13,8 @@ The third-party provider has a limitation of 1000 requests per month.
 Proxy will fetch the data from cache for every request, so we can serve the data without hitting the third-party provider.
 Cron job will always keep the cache updated. Fetching the data from one-frame-api every 2 mins.
 
-No. of Call per Hour = 60/2 = 30
-No. of Call per Month = 30 * 24 = 720
+- No. of Call per Hour = 60/2 = 30
+- No. of Call per Month = 30 * 24 = 720
 
 ## API
 The API is a simple HTTP service that exposes a single endpoint to get the exchange rate between a set of currencies.
