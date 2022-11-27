@@ -1,7 +1,7 @@
 package forex.services.rates
 
 import forex.domain.{Currency, Price, Rate, Timestamp}
-import forex.services.rates.errors.Error
+import forex.services.rates.Error.Error
 
 import java.time.OffsetDateTime
 
@@ -20,4 +20,10 @@ case class ApiResponse (from: String,
         )
       case _ => Left(Error.OneFrameLookupFailed(f"Currency pair `${from} <-> ${to}` not supported."))
     }
+
+
+}
+
+object ApiResponse {
+  def empty: ApiResponse = ApiResponse("", "", 0, 0, 0, OffsetDateTime.now())
 }

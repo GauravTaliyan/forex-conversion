@@ -15,13 +15,6 @@ object Currency {
   case object SGD extends Currency
   case object USD extends Currency
 
-  val all = List(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
-
-  def allPairs: List[Rate.Pair] = for {
-    i1 <- all
-    i2 <- all.filter(e => i1 != e)
-  } yield Rate.Pair(i1, i2)
-
   implicit val show: Show[Currency] = Show.show {
     case AUD => "AUD"
     case CAD => "CAD"
@@ -47,5 +40,12 @@ object Currency {
     case "USD" => Right(USD)
     case unsupportedCurrency => Left(s"Currency: `$unsupportedCurrency` is not supported.")
   }
+
+  val allCurrency = List(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
+
+  def allCurrencyPairs: List[Rate.Pair] = (for {
+    currency1 <- allCurrency
+    currency2 <- allCurrency
+  } yield Rate.Pair(currency1, currency2)).distinct
 
 }

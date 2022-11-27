@@ -2,8 +2,8 @@ package forex.services.cronJob
 
 import fs2.Stream
 import scala.concurrent.duration.FiniteDuration
-import forex.services.rates.errors.Error
+import forex.services.rates.Error.Error
 
-trait Algebra[F[_]] {
+trait CronJob[F[_]] {
   def job(): Stream[F,(Either[Error,Unit], FiniteDuration)]
 }

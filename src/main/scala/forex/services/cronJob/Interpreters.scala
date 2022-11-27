@@ -9,4 +9,4 @@ object Interpreters {
   def live[F[_] : Concurrent : Timer](
       config: OneFrameConfig,
       ratesService: RatesService[F],
-      cacheService: CacheService[F]): Algebra[F] = CronJobLive(config, ratesService, cacheService)}
+      cacheService: CacheService[F]): CronJob[F] = CronJobLive(config, ratesService, cacheService)}

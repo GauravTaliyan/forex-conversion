@@ -4,16 +4,16 @@ import cats.effect.Concurrent
 import cats.effect.concurrent.Ref
 import cats.implicits._
 import forex.domain.Rate
-import forex.services.cache.Algebra
+import forex.services.cache.Cache
 import org.log4s.getLogger
 
-class CacheLive[F[_] : Concurrent](cache: Ref[F, Map[Rate.Pair, Rate]]) extends Algebra[F] {
+class CacheLive[F[_] : Concurrent](cache: Ref[F, Map[Rate.Pair, Rate]]) extends Cache[F] {
   val logger = getLogger
 
   def get(pair: Rate.Pair): F[Option[Rate]] =
-    cache.get.flatMap(c => {
-      if (c.isEmpty) logger.error("Cannot Find currency exchange in Cache")
-      c.get(pair).pure[F]
+    cache.get.flatMap(cacheObject => {
+      if (cacheObject.isEmpty) logger.error("Cannot Find currency exchange in Cache")
+      cacheObject.get(pair).pure[F]
     })
 
   def set(rates: Map[Rate.Pair, Rate]): F[Unit] =

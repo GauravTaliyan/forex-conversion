@@ -1,8 +1,8 @@
 package forex.programs.rates
 
-import forex.services.rates.errors.{ Error => RatesServiceError }
+import forex.services.rates.Error.{ Error => RatesServiceError }
 
-object errors {
+object Error {
 
   sealed trait Error extends Exception
   object Error {

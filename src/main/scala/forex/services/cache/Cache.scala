@@ -2,7 +2,7 @@ package forex.services.cache
 
 import forex.domain.Rate
 
-trait Algebra[F[_]] {
+trait Cache[F[_]] {
 
   def get(pair: Rate.Pair): F[Option[Rate]]
 
