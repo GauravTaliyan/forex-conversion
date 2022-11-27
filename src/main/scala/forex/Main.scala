@@ -29,5 +29,4 @@ class Application[F[_]: ConcurrentEffect: Timer] {
             .serve
             .concurrently(module.cronJob.job())
     } yield ()
-
 }
