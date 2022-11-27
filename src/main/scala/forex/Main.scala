@@ -20,10 +20,10 @@ class Application[F[_]: ConcurrentEffect: Timer] {
 
   def stream(ec: ExecutionContext): Stream[F, Unit] =
     for {
-      config <- Config.stream("app")
+      config      <- Config.stream("app")
       sttpBackend = ArmeriaFs2Backend.usingDefaultClient[F]()
-      cache <- Stream.eval(Ref.of[F, Map[Rate.Pair, Rate]](Map.empty[Rate.Pair, Rate]))
-      module = new Module[F](config, cache, sttpBackend)
+      cache       <- Stream.eval(Ref.of[F, Map[Rate.Pair, Rate]](Map.empty[Rate.Pair, Rate]))
+      module      = new Module[F](config, cache, sttpBackend)
       _ <- BlazeServerBuilder[F](ec)
             .bindHttp(config.http.port, config.http.host)
             .withHttpApp(module.httpApp)

@@ -5,5 +5,5 @@ import scala.concurrent.duration.FiniteDuration
 import forex.services.rates.Error.Error
 
 trait CronJob[F[_]] {
-  def job(): Stream[F,(Either[Error,Unit], FiniteDuration)]
+  def job(): Stream[F, (Either[Error, Unit], FiniteDuration)]
 }

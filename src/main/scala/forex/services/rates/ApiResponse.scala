@@ -5,12 +5,12 @@ import forex.services.rates.Error.Error
 
 import java.time.OffsetDateTime
 
-case class ApiResponse (from: String,
-                        to: String,
-                        bid: BigDecimal,
-                        ask: BigDecimal,
-                        price: BigDecimal,
-                        time_stamp: OffsetDateTime) {
+case class ApiResponse(from: String,
+                       to: String,
+                       bid: BigDecimal,
+                       ask: BigDecimal,
+                       price: BigDecimal,
+                       time_stamp: OffsetDateTime) {
 
   def toRate: Either[Error, Rate] =
     (Currency.fromString(from), Currency.fromString(to)) match {
@@ -20,7 +20,6 @@ case class ApiResponse (from: String,
         )
       case _ => Left(Error.OneFrameLookupFailed(f"Currency pair `${from} <-> ${to}` not supported."))
     }
-
 
 }
 

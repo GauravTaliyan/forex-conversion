@@ -6,5 +6,5 @@ import forex.domain.Rate
 import forex.services.cache.interpreters.CacheLive
 
 object Interpreters {
-  def live[F[_] : Concurrent](cache: Ref[F, Map[Rate.Pair, Rate]]): Cache[F] = CacheLive[F](cache)
+  def live[F[_]: Concurrent](cache: Ref[F, Map[Rate.Pair, Rate]]): Cache[F] = CacheLive[F](cache)
 }

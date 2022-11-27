@@ -17,4 +17,4 @@ case class OneFrameConfig(
     host: String,
     refreshInterval: FiniteDuration,
     token: String
-    )
+)

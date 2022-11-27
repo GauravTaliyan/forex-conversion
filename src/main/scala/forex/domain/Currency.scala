@@ -29,23 +29,24 @@ object Currency {
 
   type CurrencyParseError = String
   def fromString(s: String): Either[CurrencyParseError, Currency] = s.toUpperCase match {
-    case "AUD" => Right(AUD)
-    case "CAD" => Right(CAD)
-    case "CHF" => Right(CHF)
-    case "EUR" => Right(EUR)
-    case "GBP" => Right(GBP)
-    case "NZD" => Right(NZD)
-    case "JPY" => Right(JPY)
-    case "SGD" => Right(SGD)
-    case "USD" => Right(USD)
+    case "AUD"               => Right(AUD)
+    case "CAD"               => Right(CAD)
+    case "CHF"               => Right(CHF)
+    case "EUR"               => Right(EUR)
+    case "GBP"               => Right(GBP)
+    case "NZD"               => Right(NZD)
+    case "JPY"               => Right(JPY)
+    case "SGD"               => Right(SGD)
+    case "USD"               => Right(USD)
     case unsupportedCurrency => Left(s"Currency: `$unsupportedCurrency` is not supported.")
   }
 
   val allCurrency = List(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
 
-  def allCurrencyPairs: List[Rate.Pair] = (for {
-    currency1 <- allCurrency
-    currency2 <- allCurrency
-  } yield Rate.Pair(currency1, currency2)).distinct
+  def allCurrencyPairs: List[Rate.Pair] =
+    (for {
+      currency1 <- allCurrency
+      currency2 <- allCurrency
+    } yield Rate.Pair(currency1, currency2)).distinct
 
 }

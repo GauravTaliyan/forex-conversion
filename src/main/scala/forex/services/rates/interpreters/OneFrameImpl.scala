@@ -14,22 +14,25 @@ import org.log4s._
 import sttp.model.StatusCode
 
 class OneFrameLive[F[_]: Async](backend: SttpBackend[F, _], cache: CacheService[F], oneFrameConfig: OneFrameConfig)
-  extends OneFrame[F] {
+    extends OneFrame[F] {
   val logger = getLogger
 
   override def get(pair: Rate.Pair): F[Error Either Rate] =
     for {
       rateOpt <- cache.get(pair)
-      rate = rateOpt.toRight(Error.OneFrameLookupFailed("Rate not found in cache"))
+      rate    = rateOpt.toRight(Error.OneFrameLookupFailed("Rate not found in cache"))
     } yield rate
 
   override def getAllRates(rates: List[Rate.Pair]): F[Error Either Map[Rate.Pair, Rate]] = {
     for {
-      response <- backend.send(requestObject(rates)).handleError(e => {
-        logger.error(e)("Error while getting rates from OneFrame")
-        val emptyResponse = List.empty[ApiResponse].asRight[ResponseException[String, io.circe.Error]]
-        Response[Either[ResponseException[String, io.circe.Error], List[ApiResponse]]](emptyResponse, StatusCode.Ok)
-      })
+      response <- backend
+                   .send(requestObject(rates))
+                   .handleError(e => {
+                     logger.error(e)("Error while getting rates from OneFrame")
+                     val emptyResponse = List.empty[ApiResponse].asRight[ResponseException[String, io.circe.Error]]
+                     Response[Either[ResponseException[String, io.circe.Error], List[ApiResponse]]](emptyResponse,
+                                                                                                    StatusCode.Ok)
+                   })
       rates = response.body match {
         case Left(_) => Map.empty[Rate.Pair, Rate].asRight[Error]
         case Right(response) => {
@@ -56,8 +59,10 @@ class OneFrameLive[F[_]: Async](backend: SttpBackend[F, _], cache: CacheService[
 object OneFrameLive {
 
   val token = "Token"
-  val pair = "pair"
-  var path = "rates"
-  def apply[F[_]: Async](backend: SttpBackend[F, _], cache: CacheService[F], oneFrameConfig: OneFrameConfig): OneFrame[F] =
+  val pair  = "pair"
+  var path  = "rates"
+  def apply[F[_]: Async](backend: SttpBackend[F, _],
+                         cache: CacheService[F],
+                         oneFrameConfig: OneFrameConfig): OneFrame[F] =
     new OneFrameLive[F](backend, cache, oneFrameConfig)
 }

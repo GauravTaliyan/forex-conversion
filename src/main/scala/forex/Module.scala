@@ -13,8 +13,9 @@ import cats.effect.concurrent.Ref
 import com.typesafe.scalalogging.Logger
 import forex.domain.Rate
 
-
-class Module[F[_]: Concurrent: Timer](config: ApplicationConfig, cache: Ref[F, Map[Rate.Pair, Rate]], sttpBackend: SttpBackend[F, _]) {
+class Module[F[_]: Concurrent: Timer](config: ApplicationConfig,
+                                      cache: Ref[F, Map[Rate.Pair, Rate]],
+                                      sttpBackend: SttpBackend[F, _]) {
 
   val logger = Logger(getClass.getName)
 
