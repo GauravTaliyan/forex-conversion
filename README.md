@@ -9,7 +9,7 @@ The cache is then used by the API to get the exchange rate between a set of curr
 If we are not able to fetch currency from the third-party provider, we will invalidate the cache to avoid serving stale data.
 
 ## 1000 Request Limitation 
-The third-party provider has a limitation of 1000 requests per month.
+The third-party provider has a limitation of 1000 requests per day.
 Proxy will fetch the data from cache for every request, so we can serve the data without hitting the third-party provider.
 Cron job will always keep the cache updated. Fetching the data from one-frame-api every 2 mins.
 
