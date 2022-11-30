@@ -43,7 +43,7 @@ Run Test
 
 ## Logging
 - Support for logging is provided by the logback library. The configuration file is located at src/main/resources/logback.xml.
-- Appropriate Error message will be return by api in case of any error fetching the rates from api.
+- Appropriate Error message will be returned by api in case of any error fetching the rates from api.
 - Logs will be added to stdout.
 - In case of any error while fetching the rates from one-frame-api via cron job, it will be logged and cache will be invalidated.
 
