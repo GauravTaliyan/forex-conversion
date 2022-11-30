@@ -1,13 +1,13 @@
 package forex.services.cronJob.interpreters
 
 import cats.data.EitherT
-import cats.effect.{Concurrent, Timer}
-import cats.implicits.{catsSyntaxEitherId, toFunctorOps}
+import cats.effect.{ Concurrent, Timer }
+import cats.implicits.{ catsSyntaxEitherId, toFunctorOps }
 import forex.config.OneFrameConfig
 import forex.domain.Currency
 import forex.services.cronJob.CronJob
 import forex.services.rates.Error.Error
-import forex.services.{CacheService, RatesService}
+import forex.services.{ CacheService, RatesService }
 import fs2.Stream
 
 import scala.concurrent.duration.FiniteDuration
@@ -22,7 +22,7 @@ class CronJobLive[F[_]: Concurrent: Timer](config: OneFrameConfig,
       .evalMap(_ => {
         for {
           allCurrencyRates <- EitherT(ratesService.getAllRates(Currency.allCurrencyPairs))
-          _                <- EitherT(cacheService.set(allCurrencyRates).map(_.asRight[Error]))
+          _ <- EitherT(cacheService.set(allCurrencyRates).map(_.asRight[Error]))
         } yield ()
       }.value)
       .zip(Stream.awakeEvery[F](config.refreshInterval))

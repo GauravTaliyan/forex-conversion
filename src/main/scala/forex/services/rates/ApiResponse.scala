@@ -1,6 +1,6 @@
 package forex.services.rates
 
-import forex.domain.{Currency, Price, Rate, Timestamp}
+import forex.domain.{ Currency, Price, Rate, Timestamp }
 import forex.services.rates.Error.Error
 
 import java.time.OffsetDateTime

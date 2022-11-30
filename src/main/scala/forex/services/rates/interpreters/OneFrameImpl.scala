@@ -6,9 +6,9 @@ import forex.config.OneFrameConfig
 import forex.domain.Rate
 import forex.services._
 import forex.services.rates.Error.Error
-import forex.services.rates.{OneFrame, ApiResponse}
+import forex.services.rates.{ ApiResponse, OneFrame }
 import io.circe.generic.auto._
-import sttp.client3.{Response, ResponseException, SttpBackend, UriContext, basicRequest}
+import sttp.client3.{ basicRequest, Response, ResponseException, SttpBackend, UriContext }
 import sttp.client3.circe.asJson
 import org.log4s._
 import sttp.model.StatusCode
@@ -20,18 +20,20 @@ class OneFrameLive[F[_]: Async](backend: SttpBackend[F, _], cache: CacheService[
   override def get(pair: Rate.Pair): F[Error Either Rate] =
     for {
       rateOpt <- cache.get(pair)
-      rate    = rateOpt.toRight(Error.OneFrameLookupFailed("Rate not found in cache"))
+      rate = rateOpt.toRight(Error.OneFrameLookupFailed("Rate not found in cache"))
     } yield rate
 
-  override def getAllRates(rates: List[Rate.Pair]): F[Error Either Map[Rate.Pair, Rate]] = {
+  override def getAllRates(rates: List[Rate.Pair]): F[Error Either Map[Rate.Pair, Rate]] =
     for {
       response <- backend
                    .send(requestObject(rates))
                    .handleError(e => {
                      logger.error(e)("Error while getting rates from OneFrame")
                      val emptyResponse = List.empty[ApiResponse].asRight[ResponseException[String, io.circe.Error]]
-                     Response[Either[ResponseException[String, io.circe.Error], List[ApiResponse]]](emptyResponse,
-                                                                                                    StatusCode.Ok)
+                     Response[Either[ResponseException[String, io.circe.Error], List[ApiResponse]]](
+                       emptyResponse,
+                       StatusCode.Ok
+                     )
                    })
       rates = response.body match {
         case Left(_) => Map.empty[Rate.Pair, Rate].asRight[Error]
@@ -41,7 +43,6 @@ class OneFrameLive[F[_]: Async](backend: SttpBackend[F, _], cache: CacheService[
         }
       }
     } yield rates
-  }
 
   private def requestObject(pairs: List[Rate.Pair]) = {
 

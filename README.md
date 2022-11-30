@@ -18,7 +18,7 @@ Cron job will always keep the cache updated. Fetching the data from one-frame-ap
 
 ## API
 The API is a simple HTTP service that exposes a single endpoint to get the exchange rate between a set of currencies.
-GET /rates?pair={currency_pair_0}&pair={currency_pair_1}&...pair={currency_pair_n}
+```GET /rates?pair={currency_pair_0}&pair={currency_pair_1}&...pair={currency_pair_n}```
 pair: Required query parameter that is the concatenation of two different currency codes, e.g. USDJPY. One or more pairs per request are allowed.
 
 ## Limitations
@@ -30,7 +30,7 @@ Current Api Support 9 Currencies Only. But these can be extended by adding more 
 ## Usage
 
 Run Dependency
-```docker run -p 8081:8080 --name one-frame-service -d --rm paidyinc/one-frame:latest```
+```docker run -p 8080:8080 --name one-frame-service -d --rm paidyinc/one-frame:latest```
 
 Compile Application
 ```sbt compile```
